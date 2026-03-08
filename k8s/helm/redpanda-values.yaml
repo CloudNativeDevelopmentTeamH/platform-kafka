@@ -1,0 +1,27 @@
+statefulset:
+  replicas: 1
+
+storage:
+  persistentVolume:
+    enabled: true
+    size: 2Gi
+
+external:
+  enabled: false
+
+resources:
+  cpu:
+    cores: 1
+  memory:
+    container:
+      max: 2Gi
+
+listeners:
+  kafka:
+    port: 9092
+
+auth:
+  sasl:
+    enabled: false
+  tls:
+    enabled: false
