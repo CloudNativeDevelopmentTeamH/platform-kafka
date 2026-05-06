@@ -1,0 +1,23 @@
+stages:
+  - mirror
+
+variables:
+  REDPANDA_VERSION: "v25.1.2"
+  SOURCE_IMAGE: "docker.redpanda.com/redpandadata/redpanda:${REDPANDA_VERSION}"
+  GHCR_ORG: "focusboard"
+  GHCR_REPO: "redpanda"
+  GHCR_IMAGE: "ghcr.io/${GHCR_ORG}/${GHCR_REPO}"
+
+mirror-redpanda-to-ghcr:
+  stage: mirror
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache skopeo
+  script:
+    - skopeo inspect "docker://$SOURCE_IMAGE"
+    - skopeo copy --dest-creds "${GHCR_USERNAME}:${GHCR_PAT}" "docker://$SOURCE_IMAGE" "docker://$GHCR_IMAGE:$REDPANDA_VERSION"
+    - skopeo copy --dest-creds "${GHCR_USERNAME}:${GHCR_PAT}" "docker://$SOURCE_IMAGE" "docker://$GHCR_IMAGE:latest"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: manual
+    - when: never
