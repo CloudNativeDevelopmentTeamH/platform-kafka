@@ -5,7 +5,7 @@ variables:
   REDPANDA_VERSION: "v25.1.2"
   SOURCE_IMAGE: "docker.redpanda.com/redpandadata/redpanda:${REDPANDA_VERSION}"
   GHCR_ORG: "focusboard"
-  GHCR_REPO: "redpanda"
+  GHCR_REPO: "platform-kafka"
   GHCR_IMAGE: "ghcr.io/${GHCR_ORG}/${GHCR_REPO}"
 
 mirror-redpanda-to-ghcr:
