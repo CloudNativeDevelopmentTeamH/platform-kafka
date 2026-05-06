@@ -15,8 +15,8 @@ mirror-redpanda-to-ghcr:
     - apk add --no-cache skopeo
   script:
     - skopeo inspect "docker://$SOURCE_IMAGE"
-    - skopeo copy --dest-creds "${GHCR_USERNAME}:${GHCR_PAT}" "docker://$SOURCE_IMAGE" "docker://$GHCR_IMAGE:$REDPANDA_VERSION"
-    - skopeo copy --dest-creds "${GHCR_USERNAME}:${GHCR_PAT}" "docker://$SOURCE_IMAGE" "docker://$GHCR_IMAGE:latest"
+        - skopeo copy --src-creds "$HARBOR_ROBOT_NAME:$HARBOR_ROBOT_TOKEN" --dest-creds "$GHCR_USERNAME:$GHCR_TOKEN" "docker://$HARBOR_IMAGE:$REDPANDA_VERSION" "docker://$GHCR_IMAGE:$REDPANDA_VERSION"
+    - skopeo copy --src-creds "$HARBOR_ROBOT_NAME:$HARBOR_ROBOT_TOKEN" --dest-creds "$GHCR_USERNAME:$GHCR_TOKEN" "docker://$HARBOR_IMAGE:latest" "docker://$GHCR_IMAGE:latest"
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
       when: manual
